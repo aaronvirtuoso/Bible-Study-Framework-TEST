@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bible Study Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        #output {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bible Study Generator</h1>
+    <form id="bibleStudyForm">
+        <div class="form-group">
+            <label for="introduction">Introduction</label>
+            <textarea id="introduction" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="passage">Passage</label>
+            <input type="text" id="passage" required>
+        </div>
+        <div class="form-group">
+            <label for="questions">Discussion Questions (comma separated)</label>
+            <input type="text" id="questions" required>
+        </div>
+        <div class="form-group">
+            <label for="themes">Key Themes (comma separated)</label>
+            <input type="text" id="themes" required>
+        </div>
+        <div class="form-group">
+            <label for="conclusion">Conclusion</label>
+            <textarea id="conclusion" rows="3" required></textarea>
+        </div>
+        <button type="submit">Generate Bible Study</button>
+    </form>
+    <div id="output"></div>
+
+    <script>
+        document.getElementById('bibleStudyForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const introduction = document.getElementById('introduction').value;
+            const passage = document.getElementById('passage').value;
+            const questions = document.getElementById('questions').value.split(',').map(q => q.trim());
+            const themes = document.getElementById('themes').value.split(',').map(t => t.trim());
+            const conclusion = document.getElementById('conclusion').value;
+
+            const template = `
+            **Introduction:**
+            ${introduction}
+
+            **Passage:**
+            ${passage}
+
+            **Discussion Questions:**
+            ${questions.map((q, i) => `${i + 1}. ${q}`).join('\n')}
+
+            **Key Themes:**
+            ${themes.map(t => `- ${t}`).join('\n')}
+
+            **Conclusion:**
+            ${conclusion}
+            `;
+
+            document.getElementById('output').innerHTML = `<h2>Generated Bible Study</h2><pre>${template}</pre>`;
+        });
+    </script>
+</body>
+</html>
